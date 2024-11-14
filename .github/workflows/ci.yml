@@ -10,41 +10,52 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
+      # 1. Checkout Code
       - name: Checkout code
         uses: actions/checkout@v3
  
+      # 2. Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
  
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
  
+      # 4. Linting Step with Error Handling
       - name: Run Lint
         run: npm run lint
+        continue-on-error: false # Stops if linting fails, improving error handling
  
   test:
     runs-on: ubuntu-latest
     needs: lint
     steps:
+      # 1. Checkout Code
       - name: Checkout code
         uses: actions/checkout@v3
  
+      # 2. Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16'
  
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm install
  
+      # 4. Run Tests with Error Handling
       - name: Run Tests
         run: npm test
+        continue-on-error: false # Ensures the job stops on test failures
  
   deploy:
     runs-on: ubuntu-latest
     needs: test
     steps:
+      # Simulated Deployment
       - name: Deployment
         run: echo "Deployment successful"
